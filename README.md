@@ -10,7 +10,7 @@
 
 I'm a **pre-final year B.Tech student** at **Plaksha University**, majoring in **Computer Science and Artificial Intelligence** with a minor in **Tech Entrepreneurship**.
 
-My work spans across **AI/ML**, **Data Engineering**, and **Software Development** — from building scalable ETL pipelines for NVH sensor data to developing AI-powered bug tracking tools. I'm particularly passionate about **Machine Learning**, **Computer Vision**, **NLP**, **Deep Learning**, and **Reinforcement Learning**.
+My work spans across **AI/ML**, **Data Engineering**, and **Software Development** - from building scalable ETL pipelines for NVH sensor data to developing AI-powered bug tracking tools. I'm particularly passionate about **Machine Learning**, **Computer Vision**, **NLP**, **Deep Learning**, and **Reinforcement Learning**.
 
 - 🎓 B.Tech in CS & AI @ Plaksha University *(Aug 2023 – Aug 2027)*
 - 🤖 Currently interning as a **Machine Learning Intern** @ Dixon Technologies
