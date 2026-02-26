@@ -67,7 +67,7 @@ Built a travel itinerary planner using three AI agent frameworks — **LangChain
 Developed and deployed a full-stack AI-powered bug tracking system for **TheTeacherApp** (Bharti Airtel Foundation) with automated bug detection from support data and role-based dashboards.
 
 ### 🚦 Automated Traffic Monitoring System
-Worked on an **IoRT-based** traffic monitoring system at Plaksha's Dixon IoT Lab — designed for real-world deployment within the university campus.
+Worked on an **IoRT-based** traffic monitoring system at Plaksha's Dixon IoT Lab - designed for real-world deployment within the university campus.
 
 ### 🎨 Creativity & RL Research
 Contributed to the **Human-Technology Interaction Lab** under Prof. Siddharth S., exploring Creativity Support Tools (CSTs) incorporating Reinforcement Learning models.
