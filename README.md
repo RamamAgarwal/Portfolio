@@ -93,8 +93,8 @@ Contributed to the **Human-Technology Interaction Lab** under Prof. Siddharth S.
 ## 📈 GitHub Stats
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=ramam11&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" width="48%"/>
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=ramam11&theme=tokyonight&hide_border=true" alt="GitHub Streak" width="48%"/>
+  <img src="https://github-readme-stats.vercel.app/api?username=RamamAgarwal&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" width="48%"/>
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=RamamAgarwal&theme=tokyonight&hide_border=true" alt="GitHub Streak" width="48%"/>
 </p>
 
 ---
