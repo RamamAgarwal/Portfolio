@@ -1,97 +1,99 @@
-# Hi there, I'm Ramam Agarwal 👋
+# Ramam Agarwal
+### AI/ML Engineer · Data Engineer · Builder
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ramamagarwal-51363716b)
-[![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=About.me&logoColor=white)](https://codolio.com/profile/ramam11)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:ramamagarwal1234@gmail.com)
-
----
-
-## 🧑‍💻 About Me
-
-I'm a **pre-final year B.Tech student** at **Plaksha University**, majoring in **Computer Science and Artificial Intelligence** with a minor in **Tech Entrepreneurship**.
-
-My work spans across **AI/ML**, **Data Engineering**, and **Software Development** - from building scalable ETL pipelines for NVH sensor data to developing AI-powered bug tracking tools. I'm particularly passionate about **Machine Learning**, **Computer Vision**, **NLP**, **Deep Learning**, and **Reinforcement Learning**.
-
-- 🎓 B.Tech in CS & AI @ Plaksha University *(Aug 2023 – Aug 2027)*
-- 🤖 Currently interning as a **Machine Learning Intern** @ Dixon Technologies
-- 🏗️ Building scalable **ETL pipelines** as a **Data Engineer** @ Vibracoustic
-- 🌱 Exploring **AI Orchestration**, **CAG**, and **Streamlit** applications
-- 🔍 Open to **AI/ML roles** and collaborations
+<p align="left">
+  <a href="mailto:ramamagarwal1234@gmail.com"><img src="https://img.shields.io/badge/Email-Contact%20Me-D14836?style=for-the-badge&logo=gmail&logoColor=white"/></a>
+  <a href="https://www.linkedin.com/in/ramamagarwal-51363716b"><img src="https://img.shields.io/badge/LinkedIn-Ramam%20Agarwal-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/></a>
+  <a href="https://codolio.com/profile/ramam11"><img src="https://img.shields.io/badge/Portfolio-Live%20Profile-111827?style=for-the-badge&logo=aboutdotme&logoColor=white"/></a>
+</p>
 
 ---
 
-## 🛠️ Tech Stack
+## 01. About
+I’m a **B.Tech (CS + AI)** student at **Plaksha University** (Aug 2023 – Aug 2027), focused on building practical intelligent systems that move from experimentation to deployment.
 
-**Languages & Frameworks**
+I enjoy working at the intersection of:
+- **Machine Learning & Deep Learning**
+- **Data Engineering & Analytics Pipelines**
+- **Agentic AI Applications**
+- **Applied NLP & Computer Vision**
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![PySpark](https://img.shields.io/badge/PySpark-E25A1C?style=flat-square&logo=apachespark&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
-
-**AI / ML**
-
-![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=flat-square&logo=langchain&logoColor=white)
-![CrewAI](https://img.shields.io/badge/CrewAI-000000?style=flat-square&logoColor=white)
-![Reinforcement Learning](https://img.shields.io/badge/Reinforcement%20Learning-8A2BE2?style=flat-square)
-![Computer Vision](https://img.shields.io/badge/Computer%20Vision-FF6F00?style=flat-square)
-
-**Data & Cloud**
-
-![Microsoft Fabric](https://img.shields.io/badge/Microsoft%20Fabric-742774?style=flat-square&logo=microsoft&logoColor=white)
-![Azure Data Factory](https://img.shields.io/badge/Azure%20Data%20Factory-0078D4?style=flat-square&logo=microsoftazure&logoColor=white)
-![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=flat-square&logo=powerbi&logoColor=black)
-![Delta Lake](https://img.shields.io/badge/Delta%20Lake-003366?style=flat-square)
+> I care about measurable impact: faster pipelines, cleaner data, and smarter decisions.
 
 ---
 
-## 💼 Experience Highlights
+## 02. Current Focus
+- 🧪 **Machine Learning Intern @ Dixon Technologies** — model experimentation and practical AI workflows.
+- 🔧 **Data Engineer @ Vibracoustic** — scalable ETL/ELT for NVH sensor workloads.
+- 🌱 Exploring **AI orchestration**, **RAG/CAG-style systems**, and **Streamlit-first product prototypes**.
+- 🤝 Open to internships, research collaborations, and AI/ML engineering opportunities.
 
+---
+
+## 03. Tech Stack
+
+### Languages & Core
+`Python` · `SQL` · `PySpark` · `Git` · `Streamlit`
+
+### AI / ML
+`scikit-learn` · `Deep Learning` · `Computer Vision` · `NLP` · `Reinforcement Learning` · `LangChain` · `CrewAI`
+
+### Data & Cloud
+`Microsoft Fabric` · `Azure Data Factory` · `Power BI` · `Delta Lake`
+
+---
+
+## 04. Experience Timeline
 | Role | Organization | Duration |
-|------|-------------|----------|
-| 🧪 Machine Learning Intern | Dixon Technologies India Ltd. | Jan 2026 – Present |
-| 🔧 Data Engineer | Vibracoustic | Jun 2025 – Present |
-| 🤝 Career Development Cell Rep | Plaksha University | Aug 2025 – Present |
-| 🤖 AI Intern | Prodigal AI | Apr – Jun 2025 |
-| 💻 Software Engineer Intern | Bharti Airtel Foundation | Jun – Jul 2025 |
-| 🔬 Undergraduate Researcher | Plaksha Univ. (HTI Lab) | Jun – Aug 2025 |
-| 📣 Campus Body Lead | GeeksforGeeks | May 2025 – Present |
+|---|---|---|
+| Machine Learning Intern | Dixon Technologies India Ltd. | **Jan 2026 – Present** |
+| Data Engineer | Vibracoustic | **Jun 2025 – Present** |
+| Career Development Cell Representative | Plaksha University | Aug 2025 – Present |
+| AI Intern | Prodigal AI | Apr 2025 – Jun 2025 |
+| Software Engineer Intern | Bharti Airtel Foundation | Jun 2025 – Jul 2025 |
+| Undergraduate Researcher (HTI Lab) | Plaksha University | Jun 2025 – Aug 2025 |
+| Campus Body Lead | GeeksforGeeks | May 2025 – Present |
 
 ---
 
-## 🚀 Featured Projects
+## 05. Selected Work
 
-### 🛣️ Travel Itinerary Planner *(AI Agents)*
-Built a travel itinerary planner using three AI agent frameworks — **LangChain**, **CrewAI**, and **Pydantic AI Agents** — tailored to user preferences, destination, and travel dates.
+### AI Travel Itinerary Planner
+Built an itinerary generator using **LangChain**, **CrewAI**, and **Pydantic-based agents** to personalize plans by budget, interests, location, and travel window.
 
-### 🐛 AI Bug Tracking Tool *(Full-Stack)*
-Developed and deployed a full-stack AI-powered bug tracking system for **TheTeacherApp** (Bharti Airtel Foundation) with automated bug detection from support data and role-based dashboards.
+### AI Bug Tracking Platform (TheTeacherApp)
+Designed and deployed a full-stack bug intelligence workflow with automated issue discovery from support data, prioritization logic, and role-specific dashboards.
 
-### 🚦 Automated Traffic Monitoring System
-Worked on an **IoRT-based** traffic monitoring system at Plaksha's Dixon IoT Lab - designed for real-world deployment within the university campus.
+### Automated Traffic Monitoring (IoRT)
+Developed components for an IoRT-enabled campus traffic monitoring system with deployment-oriented design and sensor-driven insights.
 
-### 🎨 Creativity & RL Research
-Contributed to the **Human-Technology Interaction Lab** under Prof. Siddharth S., exploring Creativity Support Tools (CSTs) incorporating Reinforcement Learning models.
-
----
-
-## 📜 Certifications
-
-- 🏅 Professional Machine Learning Engineer
-- 🏅 Generative AI Certification
-- 🏅 Intermediate Machine Learning
-- 🏅 Data Science Certification
-- 🏅 Certificate of Academic Excellence
+### Creativity Support + RL Research
+Contributed to research at the Human-Technology Interaction Lab on creativity support tools enhanced by reinforcement learning approaches.
 
 ---
 
-## 🌐 Languages
-
-`Hindi` · `English` · `Sanskrit`
+## 06. Certifications
+- Professional Machine Learning Engineer
+- Generative AI Certification
+- Intermediate Machine Learning
+- Data Science Certification
+- Certificate of Academic Excellence
 
 ---
 
+## 07. Beyond Code
+- 🌍 Languages: **Hindi, English, Sanskrit**
+- 📌 Interests: AI productization, developer tools, research-to-production workflows
+
+---
+
+## 08. Contact
+If you're building something ambitious in AI, data, or applied automation, let’s connect.
+
+- 📧 Email: **ramamagarwal1234@gmail.com**
+- 💼 LinkedIn: **linkedin.com/in/ramamagarwal-51363716b**
+- 🌐 Portfolio: **codolio.com/profile/ramam11**
 
 <p align="center">
-  <i>"Building intelligent systems, one model at a time."</i><br/>
-  ⭐ Feel free to explore my repositories and connect!
+  <sub>“Building intelligent systems, one model at a time.”</sub>
 </p>
