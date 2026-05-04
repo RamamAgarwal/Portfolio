@@ -48,11 +48,11 @@ I enjoy working at the intersection of:
 |---|---|---|
 | Machine Learning Intern | Dixon Technologies India Ltd. | **Jan 2026 – Present** |
 | Data Engineer | Vibracoustic | **Jun 2025 – Present** |
-| Career Development Cell Representative | Plaksha University | Aug 2025 – Present |
-| AI Intern | Prodigal AI | Apr 2025 – Jun 2025 |
-| Software Engineer Intern | Bharti Airtel Foundation | Jun 2025 – Jul 2025 |
-| Undergraduate Researcher (HTI Lab) | Plaksha University | Jun 2025 – Aug 2025 |
-| Campus Body Lead | GeeksforGeeks | May 2025 – Present |
+| Career Development Cell Representative | Plaksha University | **Aug 2025 – Present** |
+| AI Intern | Prodigal AI | **Apr 2025 – Jun 2025** |
+| Software Engineer Intern | Bharti Airtel Foundation | **Jun 2025 – Jul 2025** |
+| Undergraduate Researcher (HTI Lab) | Plaksha University | **Jun 2025 – Aug 2025** |
+| Campus Body Lead | GeeksforGeeks | **May 2025 – Present** |
 
 ---
 
