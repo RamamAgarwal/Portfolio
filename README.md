@@ -2,9 +2,9 @@
 ### AI/ML Engineer · Data Engineer · Builder
 
 <p align="left">
-  <a href="mailto:ramamagarwal1234@gmail.com"><img src="https://img.shields.io/badge/Email-Contact%20Me-D14836?style=for-the-badge&logo=gmail&logoColor=white"/></a>
-  <a href="https://www.linkedin.com/in/ramamagarwal-51363716b"><img src="https://img.shields.io/badge/LinkedIn-Ramam%20Agarwal-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/></a>
-  <a href="https://codolio.com/profile/ramam11"><img src="https://img.shields.io/badge/Portfolio-Live%20Profile-111827?style=for-the-badge&logo=aboutdotme&logoColor=white"/></a>
+  <a href="mailto:ramamagarwal1234@gmail.com"><img src="https://img.shields.io/badge/Email-Contact%20Me-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/></a>
+  <a href="https://www.linkedin.com/in/ramamagarwal-51363716b"><img src="https://img.shields.io/badge/LinkedIn-Ramam%20Agarwal-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
+  <a href="https://codolio.com/profile/ramam11"><img src="https://img.shields.io/badge/Portfolio-Live%20Profile-111827?style=for-the-badge&logo=aboutdotme&logoColor=white" alt="Portfolio"/></a>
 </p>
 
 ---
