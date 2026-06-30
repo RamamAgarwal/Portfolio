@@ -60,6 +60,63 @@
   .name { font-family: var(--font-head); font-size: 30px; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: #fff; margin-bottom: 6px; }
   .name span { background: linear-gradient(135deg, var(--accent2) 0%, var(--gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
+  /* Profile photo */
+  .photo-wrap {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    margin: 18px 0 22px;
+  }
+  .photo-frame {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border2);
+    background: linear-gradient(135deg, var(--surface), var(--surface2));
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .photo-wrap:hover .photo-frame { border-color: var(--accent3); transform: translateY(-2px); }
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(35%) contrast(1.03);
+    transition: filter 0.4s ease;
+  }
+  .photo-wrap:hover .photo-frame img { filter: grayscale(0%) contrast(1.05); }
+  .photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-align: center;
+    padding: 8px;
+    line-height: 1.5;
+  }
+  .photo-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+  .photo-ring {
+    position: absolute;
+    inset: -6px;
+    border-radius: 24px;
+    border: 1px solid rgba(124,106,247,0.18);
+    pointer-events: none;
+  }
+
   .title-tag { font-family: var(--font-mono); font-size: 12px; color: var(--accent2); letter-spacing: 0.04em; margin-bottom: 18px; height: 18px; display: flex; align-items: center; }
   .title-tag .cursor-blink { display: inline-block; width: 2px; height: 13px; background: var(--accent2); margin-left: 2px; animation: blink 1s steps(1) infinite; }
   @keyframes blink { 50% { opacity: 0; } }
@@ -247,6 +304,20 @@
       </div>
 
       <h1 class="name">Ramam<br><span>Agarwal</span></h1>
+
+      <!-- PROFILE PHOTO
+        To add your photo: replace "your-photo.jpg" below with your image filename.
+        Place the image file in the same folder as this HTML file (next to index.html).
+        Recommended: a square photo, at least 300x300px, for the cleanest crop. -->
+      <div class="photo-wrap">
+        <div class="photo-ring"></div>
+        <div class="photo-frame">
+          <img src="photo.jpg" alt="Ramam Agarwal"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="photo-placeholder" style="display:none;">ADD YOUR<br>PHOTO HERE<br>(your-photo.jpg)</div>
+        </div>
+      </div>
+
       <p class="title-tag"><span id="role-text">AI/ML Engineer</span><span class="cursor-blink"></span></p>
       <p class="tagline">
         Pre-final year CS + AI scholar at Plaksha University. Co-founder of UnDeny. Building at the intersection of ML, data engineering, and agentic AI.
