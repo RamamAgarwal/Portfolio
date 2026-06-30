@@ -33,12 +33,16 @@
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--font-head); overflow-x: hidden; cursor: none; }
 
-  #cursor { position: fixed; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; mix-blend-mode: screen; }
+  #cursor { position: fixed; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; mix-blend-mode: screen; transition: transform 0.12s ease; }
   #cursor-ring { position: fixed; width: 36px; height: 36px; border: 1.5px solid rgba(124,106,247,0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transition: width 0.3s, height 0.3s, border-color 0.3s; }
+  #spotlight { position: fixed; inset: 0; pointer-events: none; z-index: 2; background: radial-gradient(600px circle at 50% 50%, rgba(124,106,247,0.06), transparent 70%); transition: background 0.1s; }
+
+  /* Scroll progress bar */
+  #progress-bar { position: fixed; top: 0; left: 0; height: 2.5px; background: linear-gradient(90deg, var(--accent3), var(--accent), var(--teal)); z-index: 10000; width: 0%; transition: width 0.1s ease-out; }
 
   body::after { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.013) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.013) 1px, transparent 1px); background-size: 64px 64px; pointer-events: none; z-index: 0; }
 
-  .orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+  .orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; transition: transform 0.6s ease-out; }
   .orb-1 { width: 500px; height: 500px; background: rgba(84,72,217,0.12); top: -100px; right: -100px; }
   .orb-2 { width: 400px; height: 400px; background: rgba(93,212,200,0.06); bottom: 20%; left: -100px; }
   .orb-3 { width: 300px; height: 300px; background: rgba(232,197,109,0.05); bottom: -50px; right: 20%; }
@@ -55,18 +59,27 @@
 
   .name { font-family: var(--font-head); font-size: 30px; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: #fff; margin-bottom: 6px; }
   .name span { background: linear-gradient(135deg, var(--accent2) 0%, var(--gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .title-tag { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 18px; line-height: 1.6; }
-  .tagline { font-size: 13.5px; color: var(--muted2); line-height: 1.75; margin-bottom: 40px; font-weight: 400; }
 
-  nav { margin-bottom: 40px; }
+  .title-tag { font-family: var(--font-mono); font-size: 12px; color: var(--accent2); letter-spacing: 0.04em; margin-bottom: 18px; height: 18px; display: flex; align-items: center; }
+  .title-tag .cursor-blink { display: inline-block; width: 2px; height: 13px; background: var(--accent2); margin-left: 2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .tagline { font-size: 13.5px; color: var(--muted2); line-height: 1.75; margin-bottom: 36px; font-weight: 400; }
+
+  nav { margin-bottom: 36px; }
   .nav-item { display: flex; align-items: center; gap: 16px; padding: 7px 0; cursor: pointer; text-decoration: none; color: var(--muted); font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
   .nav-line { height: 1px; background: var(--muted); width: 24px; transition: width 0.3s cubic-bezier(0.23,1,0.32,1), background 0.2s; flex-shrink: 0; }
   .nav-item:hover, .nav-item.active { color: #fff; }
   .nav-item:hover .nav-line, .nav-item.active .nav-line { width: 52px; background: var(--accent); }
 
+  /* mini sidebar progress ring */
+  .scroll-meter { display:flex; align-items:center; gap:10px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+  .scroll-meter-track { flex:1; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .scroll-meter-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent3), var(--teal)); transition: width 0.1s; }
+
   .socials { display: flex; gap: 12px; flex-wrap: wrap; }
-  .social-link { display: flex; align-items: center; gap: 6px; text-decoration: none; color: var(--muted); font-family: var(--font-mono); font-size: 10.5px; transition: color 0.2s; letter-spacing: 0.04em; }
-  .social-link:hover { color: var(--accent2); }
+  .social-link { display: flex; align-items: center; gap: 6px; text-decoration: none; color: var(--muted); font-family: var(--font-mono); font-size: 10.5px; transition: color 0.2s, transform 0.2s; letter-spacing: 0.04em; }
+  .social-link:hover { color: var(--accent2); transform: translateY(-1px); }
   .social-icon { width: 15px; height: 15px; fill: currentColor; flex-shrink: 0; }
 
   /* MAIN */
@@ -81,68 +94,80 @@
   .about-text strong { color: var(--text); font-weight: 600; }
   .about-text em { color: var(--accent2); font-style: italic; }
 
-  .quote-block { border-left: 3px solid var(--accent3); padding: 14px 22px; margin: 28px 0; background: rgba(124,106,247,0.05); border-radius: 0 8px 8px 0; }
+  .quote-block { border-left: 3px solid var(--accent3); padding: 14px 22px; margin: 28px 0; background: rgba(124,106,247,0.05); border-radius: 0 8px 8px 0; position: relative; overflow: hidden; }
   .quote-text { font-family: var(--font-serif); font-size: 17px; font-weight: 300; font-style: italic; color: var(--text); line-height: 1.65; }
 
   .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin: 36px 0; }
-  .stat-cell { background: var(--bg2); padding: 22px 16px; text-align: center; }
+  .stat-cell { background: var(--bg2); padding: 22px 16px; text-align: center; transition: background 0.25s; cursor: default; }
+  .stat-cell:hover { background: var(--surface); }
   .stat-num { font-family: var(--font-head); font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -0.03em; display: block; }
   .stat-label { font-family: var(--font-mono); font-size: 9.5px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; line-height: 1.4; }
 
   .interest-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 28px; }
-  .interest-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; font-size: 12.5px; color: var(--muted2); transition: border-color 0.2s, color 0.2s; }
-  .interest-item:hover { border-color: var(--accent3); color: var(--text); }
+  .interest-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; font-size: 12.5px; color: var(--muted2); transition: border-color 0.2s, color 0.2s, transform 0.2s; }
+  .interest-item:hover { border-color: var(--accent3); color: var(--text); transform: translateX(3px); }
   .interest-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
 
-  /* EXPERIENCE */
-  .exp-item { display: grid; grid-template-columns: 110px 1fr; gap: 28px; padding: 28px 0; border-bottom: 1px solid var(--border); position: relative; }
+  /* EXPERIENCE — accordion */
+  .exp-filter-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 28px; }
+  .exp-filter-btn { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em; padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .exp-filter-btn:hover { color: var(--text); border-color: var(--border2); }
+  .exp-filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .exp-item { border-bottom: 1px solid var(--border); transition: opacity 0.3s, max-height 0.3s; }
   .exp-item:first-child { border-top: 1px solid var(--border); }
-  .exp-item::before { content: ''; position: absolute; left: -60px; right: -60px; top: 0; bottom: 0; background: var(--surface); opacity: 0; transition: opacity 0.2s; z-index: -1; border-radius: 4px; }
-  .exp-item:hover::before { opacity: 1; }
+  .exp-row { display: grid; grid-template-columns: 110px 1fr 20px; gap: 28px; padding: 22px 0; cursor: pointer; align-items: start; position: relative; }
+  .exp-row::before { content: ''; position: absolute; left: -60px; right: -60px; top: 0; bottom: 0; background: var(--surface); opacity: 0; transition: opacity 0.2s; z-index: -1; border-radius: 4px; }
+  .exp-row:hover::before { opacity: 1; }
 
   .exp-date { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.04em; padding-top: 3px; line-height: 1.6; }
   .exp-role { font-size: 14.5px; font-weight: 700; color: var(--text); margin-bottom: 2px; letter-spacing: -0.01em; }
-  .exp-company { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent2); margin-bottom: 8px; letter-spacing: 0.04em; }
+  .exp-company { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent2); letter-spacing: 0.04em; }
+  .exp-chevron { color: var(--muted); font-size: 14px; padding-top: 5px; transition: transform 0.3s ease, color 0.2s; }
+  .exp-item.open .exp-chevron { transform: rotate(135deg); color: var(--accent2); }
+
+  .exp-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding-left: 0; }
+  .exp-item.open .exp-body { padding-bottom: 24px; }
+  .exp-body-inner { display: grid; grid-template-columns: 110px 1fr; gap: 28px; }
   .exp-desc { font-size: 13px; color: var(--muted2); line-height: 1.72; font-weight: 400; }
   .exp-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
   .tag { background: rgba(124,106,247,0.09); border: 1px solid rgba(124,106,247,0.2); color: var(--accent2); font-family: var(--font-mono); font-size: 10px; padding: 3px 9px; border-radius: 100px; letter-spacing: 0.05em; }
   .tag-teal { background: rgba(93,212,200,0.09); border-color: rgba(93,212,200,0.25); color: var(--teal); }
   .tag-gold { background: rgba(232,197,109,0.09); border-color: rgba(232,197,109,0.25); color: var(--gold); }
-  .tag-coral { background: rgba(255,123,107,0.09); border-color: rgba(255,123,107,0.25); color: var(--coral); }
 
-  /* GROUP EXPERIENCE */
-  .exp-group { border-top: 1px solid var(--border); }
-  .exp-group-header { display: grid; grid-template-columns: 110px 1fr; gap: 28px; padding: 20px 0 0; }
-  .exp-group-company { font-family: var(--font-mono); font-size: 12px; color: var(--accent2); font-weight: 500; letter-spacing: 0.04em; padding-top: 3px; }
-  .exp-group-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
-  .exp-sub { display: grid; grid-template-columns: 110px 1fr; gap: 28px; padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.04); position: relative; }
-  .exp-sub::before { content: ''; position: absolute; left: -60px; right: -60px; top: 0; bottom: 0; background: var(--surface); opacity: 0; transition: opacity 0.2s; z-index: -1; border-radius: 4px; }
-  .exp-sub:hover::before { opacity: 1; }
-  .exp-sub-date { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.04em; padding-top: 3px; }
-  .exp-group-body { padding-left: 0; }
+  .founder-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(232,197,109,0.08); border: 1px solid rgba(232,197,109,0.25); color: var(--gold); font-family: var(--font-mono); font-size: 9.5px; padding: 3px 9px; border-radius: 100px; letter-spacing: 0.06em; margin-left: 8px; vertical-align: middle; }
 
   /* PROJECTS */
-  .project-card { position: relative; padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 14px; transition: border-color 0.25s, transform 0.25s; overflow: hidden; }
+  .project-filter-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 28px; }
+  .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .project-card { position: relative; padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; transition: border-color 0.25s, transform 0.1s ease-out, box-shadow 0.25s; overflow: hidden; transform-style: preserve-3d; will-change: transform; }
   .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent3), var(--accent), transparent); opacity: 0; transition: opacity 0.3s; }
-  .project-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .project-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(300px circle at var(--mx,50%) var(--my,50%), rgba(124,106,247,0.08), transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .project-card:hover { border-color: var(--border2); box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5); }
   .project-card:hover::before { opacity: 1; }
+  .project-card:hover::after { opacity: 1; }
+  .project-card.hidden-card { display: none; }
   .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
   .project-num { font-family: var(--font-mono); font-size: 10.5px; color: var(--accent); opacity: 0.7; letter-spacing: 0.1em; }
   .project-arrow { color: var(--muted); font-size: 17px; transition: transform 0.2s, color 0.2s; }
   .project-card:hover .project-arrow { transform: translate(3px,-3px); color: var(--accent2); }
-  .project-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-spacing: -0.02em; line-height: 1.25; }
-  .project-desc { font-size: 13px; color: var(--muted2); line-height: 1.72; font-weight: 400; margin-bottom: 14px; }
-  .project-highlight { display: inline-flex; align-items: center; gap: 6px; background: rgba(93,212,200,0.07); border: 1px solid rgba(93,212,200,0.18); color: var(--teal); font-family: var(--font-mono); font-size: 10px; padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; letter-spacing: 0.05em; }
+  .project-title { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-spacing: -0.02em; line-height: 1.25; }
+  .project-desc { font-size: 12.5px; color: var(--muted2); line-height: 1.7; font-weight: 400; margin-bottom: 14px; }
+  .project-highlight { display: inline-flex; align-items: center; gap: 6px; background: rgba(93,212,200,0.07); border: 1px solid rgba(93,212,200,0.18); color: var(--teal); font-family: var(--font-mono); font-size: 9.5px; padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; letter-spacing: 0.05em; }
+
+  .project-filter-btn { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em; padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .project-filter-btn:hover { color: var(--text); border-color: var(--border2); }
+  .project-filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
   /* STACK */
   .stack-category { margin-bottom: 26px; }
   .stack-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   .stack-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-  .chip { background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 11.5px; padding: 5px 13px; border-radius: 8px; transition: border-color 0.2s, color 0.2s; cursor: default; }
-  .chip:hover { border-color: var(--accent3); color: var(--accent2); }
+  .chip { background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 11.5px; padding: 5px 13px; border-radius: 8px; transition: border-color 0.2s, color 0.2s, transform 0.15s, background 0.2s; cursor: default; }
+  .chip:hover { border-color: var(--accent3); color: var(--accent2); transform: translateY(-2px); background: rgba(124,106,247,0.06); }
 
   /* EDUCATION */
-  .edu-item { display: grid; grid-template-columns: 110px 1fr; gap: 28px; padding: 24px 0; border-bottom: 1px solid var(--border); position: relative; }
+  .edu-item { display: grid; grid-template-columns: 110px 1fr; gap: 28px; padding: 24px 0; border-bottom: 1px solid var(--border); position: relative; transition: transform 0.2s; }
   .edu-item:first-child { border-top: 1px solid var(--border); }
   .edu-item::before { content: ''; position: absolute; left: -60px; right: -60px; top: 0; bottom: 0; background: var(--surface); opacity: 0; transition: opacity 0.2s; z-index: -1; border-radius: 4px; }
   .edu-item:hover::before { opacity: 1; }
@@ -151,13 +176,19 @@
   .edu-school { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent2); margin-bottom: 6px; letter-spacing: 0.04em; }
   .edu-detail { font-size: 12.5px; color: var(--muted2); line-height: 1.6; }
 
-  /* CERTIFICATIONS */
-  .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .cert-card { padding: 18px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; transition: border-color 0.2s; display: flex; align-items: flex-start; gap: 14px; }
-  .cert-card:hover { border-color: var(--border2); }
-  .cert-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  /* CERTIFICATIONS — flip cards */
+  .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .cert-flip { perspective: 1000px; height: 90px; }
+  .cert-flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.55s cubic-bezier(0.23,1,0.32,1); transform-style: preserve-3d; }
+  .cert-flip:hover .cert-flip-inner { transform: rotateY(180deg); }
+  .cert-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; gap: 14px; }
+  .cert-front { background: var(--surface); border: 1px solid var(--border); }
+  .cert-back { background: var(--surface2); border: 1px solid var(--accent3); transform: rotateY(180deg); align-items: center; justify-content: center; text-align: center; flex-direction: column; gap: 4px; }
+  .cert-icon { font-size: 22px; flex-shrink: 0; }
   .cert-name { font-size: 12.5px; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 3px; }
   .cert-org { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
+  .cert-back-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent2); letter-spacing: 0.08em; text-transform: uppercase; }
+  .cert-back-status { font-size: 12px; color: var(--teal); font-family: var(--font-mono); }
 
   /* CONTACT */
   .contact-block { padding: 52px 44px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; text-align: center; position: relative; overflow: hidden; }
@@ -165,15 +196,12 @@
   .contact-eyebrow { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
   .contact-heading { font-family: var(--font-serif); font-size: 44px; font-weight: 700; color: #fff; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 14px; }
   .contact-sub { font-size: 14.5px; color: var(--muted2); margin-bottom: 32px; line-height: 1.65; font-weight: 400; }
-  .cta-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--accent); color: #fff; text-decoration: none; font-family: var(--font-head); font-size: 13.5px; font-weight: 600; padding: 13px 30px; border-radius: 100px; transition: background 0.2s, transform 0.2s; letter-spacing: 0.02em; }
-  .cta-btn:hover { background: var(--accent2); transform: translateY(-1px); }
+  .cta-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--accent); color: #fff; text-decoration: none; font-family: var(--font-head); font-size: 13.5px; font-weight: 600; padding: 13px 30px; border-radius: 100px; transition: background 0.2s, transform 0.15s; letter-spacing: 0.02em; position: relative; }
+  .cta-btn:hover { background: var(--accent2); }
 
   .contact-links { display: flex; justify-content: center; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
   .contact-link { font-family: var(--font-mono); font-size: 11px; color: var(--muted); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s; }
   .contact-link:hover { color: var(--accent2); }
-
-  /* FOUNDER BADGE */
-  .founder-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(232,197,109,0.08); border: 1px solid rgba(232,197,109,0.25); color: var(--gold); font-family: var(--font-mono); font-size: 9.5px; padding: 3px 9px; border-radius: 100px; letter-spacing: 0.06em; margin-left: 8px; vertical-align: middle; }
 
   /* REVEAL */
   .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
@@ -187,10 +215,11 @@
     .layout { flex-direction: column; }
     .sidebar { position: relative; width: 100%; min-width: unset; height: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 44px 24px 32px; }
     .main { padding: 40px 24px 80px; }
-    nav { display: none; }
-    .interest-grid, .cert-grid { grid-template-columns: 1fr; }
-    .exp-item, .exp-group-header, .exp-sub, .edu-item { grid-template-columns: 1fr; gap: 6px; }
-    .exp-item::before, .exp-sub::before, .edu-item::before { left: 0; right: 0; }
+    nav, .scroll-meter { display: none; }
+    .interest-grid, .cert-grid, .project-grid { grid-template-columns: 1fr; }
+    .exp-row, .exp-body-inner, .edu-item { grid-template-columns: 1fr; gap: 6px; }
+    .exp-row { grid-template-columns: 1fr 20px; }
+    .exp-row::before, .edu-item::before { left: 0; right: 0; }
     .stat-strip { grid-template-columns: repeat(2, 1fr); }
     body { cursor: auto; }
     #cursor, #cursor-ring { display: none; }
@@ -199,11 +228,13 @@
 </head>
 <body>
 
+<div id="progress-bar"></div>
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
+<div id="spotlight"></div>
+<div class="orb orb-1" id="orb1"></div>
+<div class="orb orb-2" id="orb2"></div>
+<div class="orb orb-3" id="orb3"></div>
 
 <div class="layout">
 
@@ -216,11 +247,15 @@
       </div>
 
       <h1 class="name">Ramam<br><span>Agarwal</span></h1>
-      <p class="title-tag">AI/ML · Data Engineer<br>Co-Founder · Builder</p>
-
+      <p class="title-tag"><span id="role-text">AI/ML Engineer</span><span class="cursor-blink"></span></p>
       <p class="tagline">
         Pre-final year CS + AI scholar at Plaksha University. Co-founder of UnDeny. Building at the intersection of ML, data engineering, and agentic AI.
       </p>
+
+      <div class="scroll-meter">
+        <span>SCROLL</span>
+        <div class="scroll-meter-track"><div class="scroll-meter-fill" id="scroll-meter-fill"></div></div>
+      </div>
 
       <nav>
         <a href="#about"      class="nav-item active"><span class="nav-line"></span>About</a>
@@ -273,10 +308,10 @@
       </p>
 
       <div class="stat-strip reveal">
-        <div class="stat-cell"><span class="stat-num">10+</span><span class="stat-label">Roles & Experiences</span></div>
-        <div class="stat-cell"><span class="stat-num">4+</span><span class="stat-label">Live Projects</span></div>
-        <div class="stat-cell"><span class="stat-num">5</span><span class="stat-label">Certifications</span></div>
-        <div class="stat-cell"><span class="stat-num">1</span><span class="stat-label">Startup Founded</span></div>
+        <div class="stat-cell"><span class="stat-num" data-target="10">0</span><span class="stat-label">Roles & Experiences</span></div>
+        <div class="stat-cell"><span class="stat-num" data-target="6">0</span><span class="stat-label">Live Projects</span></div>
+        <div class="stat-cell"><span class="stat-num" data-target="5">0</span><span class="stat-label">Certifications</span></div>
+        <div class="stat-cell"><span class="stat-num" data-target="1">0</span><span class="stat-label">Startup Founded</span></div>
       </div>
 
       <div class="interest-grid">
@@ -293,192 +328,222 @@
     <section id="experience">
       <div class="section-label">02 — Experience</div>
 
-      <!-- kaksha.ai -->
-      <div class="exp-item reveal">
-        <div class="exp-date">Jun 2026<br>— Present</div>
-        <div>
-          <div class="exp-role">Artificial Intelligence Intern</div>
-          <div class="exp-company">kaksha.ai</div>
-          <div class="exp-desc">Working on AI-powered learning systems, contributing to intelligent product features and ML-driven workflows in an EdTech environment.</div>
-          <div class="exp-tags"><span class="tag">AI/ML</span><span class="tag">EdTech</span><span class="tag">Python</span></div>
-        </div>
+      <div class="exp-filter-bar reveal">
+        <button class="exp-filter-btn active" data-filter="all">All</button>
+        <button class="exp-filter-btn" data-filter="ai">AI / ML</button>
+        <button class="exp-filter-btn" data-filter="data">Data Eng</button>
+        <button class="exp-filter-btn" data-filter="leadership">Leadership</button>
+        <button class="exp-filter-btn" data-filter="research">Research</button>
       </div>
 
-      <!-- UnDeny -->
-      <div class="exp-item reveal">
-        <div class="exp-date">Mar 2026<br>— Present</div>
-        <div>
-          <div class="exp-role">Co-Founder <span class="founder-badge">✦ Startup</span></div>
-          <div class="exp-company">UnDeny</div>
-          <div class="exp-desc">Co-founded UnDeny, an AI-driven platform that automates health insurance claim appeals — enabling patients to challenge denials with fast, data-backed submissions and minimal friction. Building the full product from zero to launch.</div>
-          <div class="exp-tags"><span class="tag-gold tag">AI Automation</span><span class="tag-gold tag">HealthTech</span><span class="tag-gold tag">Founder</span><span class="tag">Product</span></div>
-        </div>
-      </div>
+      <div id="exp-list">
 
-      <!-- Dixon Technologies -->
-      <div class="exp-item reveal">
-        <div class="exp-date">Jan 2026<br>— May 2026</div>
-        <div>
-          <div class="exp-role">Machine Learning Intern</div>
-          <div class="exp-company">Dixon Technologies India Ltd.</div>
-          <div class="exp-desc">Built a real-time traffic analytics system with live tracking and camera feeds. Processed 12M+ records for key visual insights, integrated forecasting models (Simple Average, Prophet, TimesFM), and developed a context-aware agentic AI chatbot using CAG and Streamlit.</div>
-          <div class="exp-tags"><span class="tag">CAG</span><span class="tag">Streamlit</span><span class="tag">Prophet</span><span class="tag">TimesFM</span><span class="tag">Computer Vision</span><span class="tag">Python</span></div>
-        </div>
-      </div>
-
-      <!-- Vibracoustic -->
-      <div class="exp-item reveal">
-        <div class="exp-date">Jun 2025<br>— Present</div>
-        <div>
-          <div class="exp-role">Data Engineer</div>
-          <div class="exp-company">Vibracoustic</div>
-          <div class="exp-desc">Developed scalable ETL pipelines using Microsoft Fabric and PySpark for NVH sensor data. Built Power BI dashboards for real-time insights and automated workflows with Azure Data Factory to ensure reliable, validated data processing.</div>
-          <div class="exp-tags"><span class="tag">PySpark</span><span class="tag">Microsoft Fabric</span><span class="tag">Azure Data Factory</span><span class="tag">Power BI</span><span class="tag">Delta Lake</span></div>
-        </div>
-      </div>
-
-      <!-- GeeksforGeeks group -->
-      <div class="exp-group reveal">
-        <div class="exp-group-header">
-          <div class="exp-group-company">GeeksforGeeks</div>
-          <div>
-            <div class="exp-group-label">1 year 11 months · 2 roles</div>
+        <div class="exp-item reveal" data-cat="ai">
+          <div class="exp-row">
+            <div class="exp-date">Jun 2026<br>— Present</div>
+            <div><div class="exp-role">Artificial Intelligence Intern</div><div class="exp-company">kaksha.ai</div></div>
+            <div class="exp-chevron">＋</div>
           </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Working on AI-powered learning systems, contributing to intelligent product features and ML-driven workflows in an EdTech environment.</p>
+            <div class="exp-tags"><span class="tag">AI/ML</span><span class="tag">EdTech</span><span class="tag">Python</span></div>
+          </div></div></div>
         </div>
-        <div class="exp-sub">
-          <div class="exp-sub-date">Jul 2025<br>— May 2026</div>
-          <div>
-            <div class="exp-role">Campus Body Lead (Extension Offer)</div>
-            <div class="exp-desc">Founded and led the GeeksforGeeks Campus Body by recruiting and mentoring a core team. Ran a coding club with sessions on DSA, competitive programming, and ML, driving platform engagement through targeted outreach.</div>
+
+        <div class="exp-item reveal" data-cat="ai leadership">
+          <div class="exp-row">
+            <div class="exp-date">Mar 2026<br>— Present</div>
+            <div><div class="exp-role">Co-Founder <span class="founder-badge">✦ Startup</span></div><div class="exp-company">UnDeny</div></div>
+            <div class="exp-chevron">＋</div>
+          </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Co-founded UnDeny, an AI-driven platform that automates health insurance claim appeals — enabling patients to challenge denials with fast, data-backed submissions and minimal friction. Building the full product from zero to launch.</p>
+            <div class="exp-tags"><span class="tag-gold tag">AI Automation</span><span class="tag-gold tag">HealthTech</span><span class="tag-gold tag">Founder</span><span class="tag">Product</span></div>
+          </div></div></div>
+        </div>
+
+        <div class="exp-item reveal" data-cat="ai data">
+          <div class="exp-row">
+            <div class="exp-date">Jan 2026<br>— May 2026</div>
+            <div><div class="exp-role">Machine Learning Intern</div><div class="exp-company">Dixon Technologies India Ltd.</div></div>
+            <div class="exp-chevron">＋</div>
+          </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Built a real-time traffic analytics system with live tracking and camera feeds. Processed 12M+ records for key visual insights, integrated forecasting models (Simple Average, Prophet, TimesFM), and developed a context-aware agentic AI chatbot using CAG and Streamlit.</p>
+            <div class="exp-tags"><span class="tag">CAG</span><span class="tag">Streamlit</span><span class="tag">Prophet</span><span class="tag">TimesFM</span><span class="tag">Computer Vision</span></div>
+          </div></div></div>
+        </div>
+
+        <div class="exp-item reveal" data-cat="data">
+          <div class="exp-row">
+            <div class="exp-date">Jun 2025<br>— May 2026</div>
+            <div><div class="exp-role">Data Engineer</div><div class="exp-company">Vibracoustic</div></div>
+            <div class="exp-chevron">＋</div>
+          </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Developed scalable ETL pipelines using Microsoft Fabric and PySpark for NVH sensor data. Built Power BI dashboards for real-time insights and automated workflows with Azure Data Factory to ensure reliable, validated data processing.</p>
+            <div class="exp-tags"><span class="tag">PySpark</span><span class="tag">Microsoft Fabric</span><span class="tag">Azure Data Factory</span><span class="tag">Power BI</span><span class="tag">Delta Lake</span></div>
+          </div></div></div>
+        </div>
+
+        <div class="exp-item reveal" data-cat="leadership">
+          <div class="exp-row">
+            <div class="exp-date">Jul 2025<br>— May 2026</div>
+            <div><div class="exp-role">Campus Body Lead (Extension Offer)</div><div class="exp-company">GeeksforGeeks</div></div>
+            <div class="exp-chevron">＋</div>
+          </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Founded and led the GeeksforGeeks Campus Body by recruiting and mentoring a core team. Ran a coding club with sessions on DSA, competitive programming, and ML, driving platform engagement through targeted outreach.</p>
             <div class="exp-tags"><span class="tag-teal tag">Community Leadership</span><span class="tag">DSA</span><span class="tag">ML</span></div>
-          </div>
+          </div></div></div>
         </div>
-        <div class="exp-sub">
-          <div class="exp-sub-date">Jul 2024<br>— Jun 2025</div>
-          <div>
-            <div class="exp-role">Campus Ambassador</div>
-            <div class="exp-desc">Organised events, workshops, and webinars in collaboration with university tech clubs — Geek Room, Kalki (Robotics), and Coder's Guild — to enhance knowledge-sharing and community involvement.</div>
+
+        <div class="exp-item reveal" data-cat="leadership">
+          <div class="exp-row">
+            <div class="exp-date">Jul 2024<br>— Jun 2025</div>
+            <div><div class="exp-role">Campus Ambassador</div><div class="exp-company">GeeksforGeeks</div></div>
+            <div class="exp-chevron">＋</div>
+          </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Organised events, workshops, and webinars in collaboration with university tech clubs — Geek Room, Kalki (Robotics), and Coder's Guild — to enhance knowledge-sharing and community involvement.</p>
             <div class="exp-tags"><span class="tag">Events</span><span class="tag">Workshops</span><span class="tag">Community</span></div>
+          </div></div></div>
+        </div>
+
+        <div class="exp-item reveal" data-cat="leadership">
+          <div class="exp-row">
+            <div class="exp-date">Aug 2025<br>— Present</div>
+            <div><div class="exp-role">Career Development Cell Representative</div><div class="exp-company">Office of Corporate Partnerships, Plaksha</div></div>
+            <div class="exp-chevron">＋</div>
           </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Coordinated with the placement cell to streamline employer communication, support internship and placement processes, and organise career development events connecting students with industry leaders, alumni, and experts.</p>
+            <div class="exp-tags"><span class="tag">Career Dev</span><span class="tag">Placements</span><span class="tag">Event Management</span></div>
+          </div></div></div>
         </div>
-      </div>
 
-      <!-- CDC Rep -->
-      <div class="exp-item reveal">
-        <div class="exp-date">Aug 2025<br>— Present</div>
-        <div>
-          <div class="exp-role">Career Development Cell Representative</div>
-          <div class="exp-company">Office of Corporate Partnerships, Plaksha University</div>
-          <div class="exp-desc">Coordinated with the placement cell to streamline employer communication, support internship and placement processes, and organise career development events connecting students with industry leaders, alumni, and experts.</div>
-          <div class="exp-tags"><span class="tag">Career Dev</span><span class="tag">Placements</span><span class="tag">Event Management</span></div>
+        <div class="exp-item reveal" data-cat="data ai">
+          <div class="exp-row">
+            <div class="exp-date">Jun 2025<br>— Jul 2025</div>
+            <div><div class="exp-role">Software Engineer Intern</div><div class="exp-company">Bharti Airtel Foundation</div></div>
+            <div class="exp-chevron">＋</div>
+          </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Built and deployed a full-stack AI-powered bug tracking tool for TheTeacherApp. The system automates bug detection and classification from support data, with role-based dashboards to streamline management and resolution.</p>
+            <div class="exp-tags"><span class="tag">Full-Stack</span><span class="tag">NLP</span><span class="tag">Python</span><span class="tag">Dashboards</span></div>
+          </div></div></div>
         </div>
-      </div>
 
-      <!-- Bharti Airtel Foundation -->
-      <div class="exp-item reveal">
-        <div class="exp-date">Jun 2025<br>— Jul 2025</div>
-        <div>
-          <div class="exp-role">Software Engineer Intern</div>
-          <div class="exp-company">Bharti Airtel Foundation</div>
-          <div class="exp-desc">Built and deployed a full-stack AI-powered bug tracking tool for TheTeacherApp. The system automates bug detection and classification from support data, with role-based dashboards to streamline management and resolution.</div>
-          <div class="exp-tags"><span class="tag">Full-Stack</span><span class="tag">NLP</span><span class="tag">Python</span><span class="tag">Dashboards</span></div>
+        <div class="exp-item reveal" data-cat="research">
+          <div class="exp-row">
+            <div class="exp-date">Jun 2025<br>— Aug 2025</div>
+            <div><div class="exp-role">Undergraduate Student Researcher</div><div class="exp-company">HTI Lab, Plaksha University</div></div>
+            <div class="exp-chevron">＋</div>
+          </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Worked under Prof. Siddharth S. at the Human-Technology Interaction Lab, contributing to a creativity-focused project involving Creativity Support Tools integrated with reinforcement learning models.</p>
+            <div class="exp-tags"><span class="tag">Reinforcement Learning</span><span class="tag">HCI</span><span class="tag">Research</span></div>
+          </div></div></div>
         </div>
-      </div>
 
-      <!-- HTI Lab Researcher -->
-      <div class="exp-item reveal">
-        <div class="exp-date">Jun 2025<br>— Aug 2025</div>
-        <div>
-          <div class="exp-role">Undergraduate Student Researcher</div>
-          <div class="exp-company">HTI Lab, Plaksha University</div>
-          <div class="exp-desc">Worked under Prof. Siddharth S. at the Human-Technology Interaction Lab, contributing to a creativity-focused project involving Creativity Support Tools integrated with reinforcement learning models.</div>
-          <div class="exp-tags"><span class="tag">Reinforcement Learning</span><span class="tag">HCI</span><span class="tag">Research</span></div>
+        <div class="exp-item reveal" data-cat="leadership">
+          <div class="exp-row">
+            <div class="exp-date">Mar 2025<br>— May 2025</div>
+            <div><div class="exp-role">Intern — Content & Media</div><div class="exp-company">Plaksha University</div></div>
+            <div class="exp-chevron">＋</div>
+          </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Developed the Robotics and Autonomous Systems course brochure, produced and scripted four course video shoots, and compiled the Plaksha montage report for the Singapore Autonomous Underwater Vehicle Challenge 2025.</p>
+            <div class="exp-tags"><span class="tag">Content</span><span class="tag">Video Production</span><span class="tag">Robotics</span></div>
+          </div></div></div>
         </div>
-      </div>
 
-      <!-- Plaksha Intern -->
-      <div class="exp-item reveal">
-        <div class="exp-date">Mar 2025<br>— May 2025</div>
-        <div>
-          <div class="exp-role">Intern — Content & Media</div>
-          <div class="exp-company">Plaksha University</div>
-          <div class="exp-desc">Developed the Robotics and Autonomous Systems course brochure, produced and scripted four course video shoots, and compiled the Plaksha montage report for the Singapore Autonomous Underwater Vehicle Challenge 2025.</div>
-          <div class="exp-tags"><span class="tag">Content</span><span class="tag">Video Production</span><span class="tag">Robotics</span></div>
+        <div class="exp-item reveal" data-cat="leadership">
+          <div class="exp-row">
+            <div class="exp-date">Nov 2025</div>
+            <div><div class="exp-role">Conference Coordinator</div><div class="exp-company">ConfAI 2025</div></div>
+            <div class="exp-chevron">＋</div>
+          </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Supported the Local Outreach Team with event coordination, conducted web scraping for attendee data, and managed email outreach to streamline communication and engagement.</p>
+            <div class="exp-tags"><span class="tag">Web Scraping</span><span class="tag">Outreach</span><span class="tag">Event Coordination</span></div>
+          </div></div></div>
         </div>
-      </div>
 
-      <!-- ConfAI -->
-      <div class="exp-item reveal">
-        <div class="exp-date">Nov 2025</div>
-        <div>
-          <div class="exp-role">Conference Coordinator</div>
-          <div class="exp-company">ConfAI 2025</div>
-          <div class="exp-desc">Supported the Local Outreach Team with event coordination, conducted web scraping for attendee data, and managed email outreach to streamline communication and engagement.</div>
-          <div class="exp-tags"><span class="tag">Web Scraping</span><span class="tag">Outreach</span><span class="tag">Event Coordination</span></div>
+        <div class="exp-item reveal" data-cat="ai">
+          <div class="exp-row">
+            <div class="exp-date">Nov 2024<br>— Dec 2024</div>
+            <div><div class="exp-role">Lab Project Contributor</div><div class="exp-company">Dixon IoT Lab, Plaksha University</div></div>
+            <div class="exp-chevron">＋</div>
+          </div>
+          <div class="exp-body"><div class="exp-body-inner"><div></div><div>
+            <p class="exp-desc">Worked on the Automated Traffic Monitoring System using an IoRT model to be incorporated into Plaksha's campus infrastructure.</p>
+            <div class="exp-tags"><span class="tag">IoT</span><span class="tag">Computer Vision</span><span class="tag">IoRT</span></div>
+          </div></div></div>
         </div>
-      </div>
 
-      <!-- Dixon IoT Lab -->
-      <div class="exp-item reveal">
-        <div class="exp-date">Nov 2024<br>— Dec 2024</div>
-        <div>
-          <div class="exp-role">Lab Project Contributor</div>
-          <div class="exp-company">Dixon IoT Lab, Plaksha University</div>
-          <div class="exp-desc">Worked on the Automated Traffic Monitoring System using an IoRT model to be incorporated into Plaksha's campus infrastructure.</div>
-          <div class="exp-tags"><span class="tag">IoT</span><span class="tag">Computer Vision</span><span class="tag">IoRT</span></div>
-        </div>
       </div>
-
     </section>
 
     <!-- PROJECTS -->
     <section id="projects">
       <div class="section-label">03 — Selected Work</div>
 
-      <div class="project-card reveal">
-        <div class="project-header"><span class="project-num">001</span><span class="project-arrow">↗</span></div>
-        <div class="project-highlight">⚡ 12M+ records processed</div>
-        <h3 class="project-title">Real-Time Traffic Analytics System</h3>
-        <p class="project-desc">Built at Dixon Technologies — a live traffic analytics platform with camera feeds, real-time tracking, and visual insights from 12M+ records. Integrated multiple forecasting models (Simple Average, Prophet, TimesFM) and developed a context-aware agentic AI chatbot powered by CAG and Streamlit for intelligent data queries.</p>
-        <div class="exp-tags"><span class="tag">CAG</span><span class="tag">Streamlit</span><span class="tag">Prophet</span><span class="tag">TimesFM</span><span class="tag">Computer Vision</span><span class="tag">Agentic AI</span></div>
+      <div class="project-filter-bar reveal">
+        <button class="project-filter-btn active" data-filter="all">All</button>
+        <button class="project-filter-btn" data-filter="ai">AI / ML</button>
+        <button class="project-filter-btn" data-filter="data">Data</button>
+        <button class="project-filter-btn" data-filter="startup">Startup</button>
+        <button class="project-filter-btn" data-filter="research">Research</button>
       </div>
 
-      <div class="project-card reveal">
-        <div class="project-header"><span class="project-num">002</span><span class="project-arrow">↗</span></div>
-        <div class="project-highlight">✦ Co-founded startup</div>
-        <h3 class="project-title">UnDeny — AI Health Insurance Appeals Platform</h3>
-        <p class="project-desc">Co-founded and built UnDeny, an AI-driven platform that automates health insurance claim denials. Patients can challenge denials with fast, data-backed submissions with minimal friction — making the appeals process accessible and efficient for everyone.</p>
-        <div class="exp-tags"><span class="tag-gold tag">AI Automation</span><span class="tag-gold tag">HealthTech</span><span class="tag">NLP</span><span class="tag">Full-Stack</span><span class="tag">Python</span></div>
-      </div>
+      <div class="project-grid" id="project-grid">
 
-      <div class="project-card reveal">
-        <div class="project-header"><span class="project-num">003</span><span class="project-arrow">↗</span></div>
-        <h3 class="project-title">AI Bug Tracking Tool — TheTeacherApp</h3>
-        <p class="project-desc">Full-stack AI-powered bug tracking system built for Bharti Airtel Foundation's TheTeacherApp. Automates bug detection and classification from support data using NLP, with role-based dashboards that streamline issue management and resolution for different team members.</p>
-        <div class="exp-tags"><span class="tag">NLP</span><span class="tag">Full-Stack</span><span class="tag">Streamlit</span><span class="tag">Python</span><span class="tag">SQL</span></div>
-      </div>
+        <div class="project-card reveal tilt-card" data-cat="ai data">
+          <div class="project-header"><span class="project-num">001</span><span class="project-arrow">↗</span></div>
+          <div class="project-highlight">⚡ 12M+ records processed</div>
+          <h3 class="project-title">Real-Time Traffic Analytics System</h3>
+          <p class="project-desc">Live traffic analytics platform with camera feeds, real-time tracking, and forecasting models (Prophet, TimesFM). Includes a context-aware agentic AI chatbot powered by CAG and Streamlit.</p>
+          <div class="exp-tags"><span class="tag">CAG</span><span class="tag">Streamlit</span><span class="tag">Prophet</span><span class="tag">Computer Vision</span></div>
+        </div>
 
-      <div class="project-card reveal">
-        <div class="project-header"><span class="project-num">004</span><span class="project-arrow">↗</span></div>
-        <h3 class="project-title">NVH Sensor Data Pipeline — Vibracoustic</h3>
-        <p class="project-desc">Designed and deployed scalable ETL/ELT pipelines for automotive NVH sensor workloads using Microsoft Fabric and PySpark. Built Power BI dashboards for real-time operational insights and automated validation workflows with Azure Data Factory.</p>
-        <div class="exp-tags"><span class="tag">PySpark</span><span class="tag">Microsoft Fabric</span><span class="tag">Azure Data Factory</span><span class="tag">Power BI</span><span class="tag">Delta Lake</span></div>
-      </div>
+        <div class="project-card reveal tilt-card" data-cat="ai startup">
+          <div class="project-header"><span class="project-num">002</span><span class="project-arrow">↗</span></div>
+          <div class="project-highlight">✦ Co-founded startup</div>
+          <h3 class="project-title">UnDeny — AI Health Insurance Appeals</h3>
+          <p class="project-desc">Co-founded an AI-driven platform automating health insurance claim denials — patients challenge denials with fast, data-backed submissions and minimal friction.</p>
+          <div class="exp-tags"><span class="tag-gold tag">AI Automation</span><span class="tag-gold tag">HealthTech</span><span class="tag">NLP</span></div>
+        </div>
 
-      <div class="project-card reveal">
-        <div class="project-header"><span class="project-num">005</span><span class="project-arrow">↗</span></div>
-        <h3 class="project-title">Automated Traffic Monitoring (IoRT)</h3>
-        <p class="project-desc">Developed components for an IoRT-enabled campus traffic monitoring system for Plaksha University. Deployment-oriented design with real-time sensor-driven insights to support smart campus infrastructure management.</p>
-        <div class="exp-tags"><span class="tag">IoT</span><span class="tag">Computer Vision</span><span class="tag">IoRT</span><span class="tag">Python</span></div>
-      </div>
+        <div class="project-card reveal tilt-card" data-cat="ai">
+          <div class="project-header"><span class="project-num">003</span><span class="project-arrow">↗</span></div>
+          <h3 class="project-title">AI Bug Tracking Tool — TheTeacherApp</h3>
+          <p class="project-desc">Full-stack AI bug tracking system for Bharti Airtel Foundation. Automates bug detection and classification from support data with role-based dashboards.</p>
+          <div class="exp-tags"><span class="tag">NLP</span><span class="tag">Full-Stack</span><span class="tag">Streamlit</span></div>
+        </div>
 
-      <div class="project-card reveal">
-        <div class="project-header"><span class="project-num">006</span><span class="project-arrow">↗</span></div>
-        <h3 class="project-title">Creativity Support + RL Research</h3>
-        <p class="project-desc">Research at the HTI Lab under Prof. Siddharth S. — exploring how reinforcement learning can enhance Creativity Support Tools. Developed evaluation frameworks and tested novel reward structures for creative task completion in human-technology interaction contexts.</p>
-        <div class="exp-tags"><span class="tag">Reinforcement Learning</span><span class="tag">HCI Research</span><span class="tag">CST</span><span class="tag">Python</span></div>
-      </div>
+        <div class="project-card reveal tilt-card" data-cat="data">
+          <div class="project-header"><span class="project-num">004</span><span class="project-arrow">↗</span></div>
+          <h3 class="project-title">NVH Sensor Data Pipeline — Vibracoustic</h3>
+          <p class="project-desc">Scalable ETL/ELT pipelines for automotive NVH sensor workloads using Microsoft Fabric and PySpark, with Power BI dashboards for real-time insights.</p>
+          <div class="exp-tags"><span class="tag">PySpark</span><span class="tag">Microsoft Fabric</span><span class="tag">Power BI</span></div>
+        </div>
 
+        <div class="project-card reveal tilt-card" data-cat="data ai">
+          <div class="project-header"><span class="project-num">005</span><span class="project-arrow">↗</span></div>
+          <h3 class="project-title">Automated Traffic Monitoring (IoRT)</h3>
+          <p class="project-desc">IoRT-enabled campus traffic monitoring system for Plaksha University with real-time sensor-driven insights for smart infrastructure management.</p>
+          <div class="exp-tags"><span class="tag">IoT</span><span class="tag">Computer Vision</span><span class="tag">IoRT</span></div>
+        </div>
+
+        <div class="project-card reveal tilt-card" data-cat="research">
+          <div class="project-header"><span class="project-num">006</span><span class="project-arrow">↗</span></div>
+          <h3 class="project-title">Creativity Support + RL Research</h3>
+          <p class="project-desc">Research at the HTI Lab under Prof. Siddharth S. — exploring how reinforcement learning enhances Creativity Support Tools, with novel reward structures.</p>
+          <div class="exp-tags"><span class="tag">Reinforcement Learning</span><span class="tag">HCI Research</span></div>
+        </div>
+
+      </div>
     </section>
 
     <!-- STACK -->
@@ -553,27 +618,28 @@
     <!-- CERTIFICATIONS -->
     <section id="certs">
       <div class="section-label">06 — Certifications</div>
+      <p style="font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); margin-bottom: 20px; letter-spacing: 0.04em;">hover to flip ↻</p>
       <div class="cert-grid">
-        <div class="cert-card reveal">
-          <div class="cert-icon">🏅</div>
-          <div><div class="cert-name">Professional Machine Learning Engineer</div><div class="cert-org">Google Cloud</div></div>
-        </div>
-        <div class="cert-card reveal">
-          <div class="cert-icon">🎓</div>
-          <div><div class="cert-name">Certificate of Academic Excellence</div><div class="cert-org">Plaksha University</div></div>
-        </div>
-        <div class="cert-card reveal">
-          <div class="cert-icon">📊</div>
-          <div><div class="cert-name">Intermediate Machine Learning</div><div class="cert-org">Kaggle</div></div>
-        </div>
-        <div class="cert-card reveal">
-          <div class="cert-icon">🤖</div>
-          <div><div class="cert-name">Generative AI Certification</div><div class="cert-org">Industry Certification</div></div>
-        </div>
-        <div class="cert-card reveal">
-          <div class="cert-icon">🔬</div>
-          <div><div class="cert-name">Data Science Certification</div><div class="cert-org">Industry Certification</div></div>
-        </div>
+        <div class="cert-flip reveal"><div class="cert-flip-inner">
+          <div class="cert-face cert-front"><div class="cert-icon">🏅</div><div><div class="cert-name">Professional ML Engineer</div><div class="cert-org">Google Cloud</div></div></div>
+          <div class="cert-face cert-back"><div class="cert-back-label">Verified</div><div class="cert-back-status">✓ Issued</div></div>
+        </div></div>
+        <div class="cert-flip reveal"><div class="cert-flip-inner">
+          <div class="cert-face cert-front"><div class="cert-icon">🎓</div><div><div class="cert-name">Academic Excellence</div><div class="cert-org">Plaksha University</div></div></div>
+          <div class="cert-face cert-back"><div class="cert-back-label">Verified</div><div class="cert-back-status">✓ Issued</div></div>
+        </div></div>
+        <div class="cert-flip reveal"><div class="cert-flip-inner">
+          <div class="cert-face cert-front"><div class="cert-icon">📊</div><div><div class="cert-name">Intermediate ML</div><div class="cert-org">Kaggle</div></div></div>
+          <div class="cert-face cert-back"><div class="cert-back-label">Verified</div><div class="cert-back-status">✓ Issued</div></div>
+        </div></div>
+        <div class="cert-flip reveal"><div class="cert-flip-inner">
+          <div class="cert-face cert-front"><div class="cert-icon">🤖</div><div><div class="cert-name">Generative AI</div><div class="cert-org">Industry Cert.</div></div></div>
+          <div class="cert-face cert-back"><div class="cert-back-label">Verified</div><div class="cert-back-status">✓ Issued</div></div>
+        </div></div>
+        <div class="cert-flip reveal"><div class="cert-flip-inner">
+          <div class="cert-face cert-front"><div class="cert-icon">🔬</div><div><div class="cert-name">Data Science</div><div class="cert-org">Industry Cert.</div></div></div>
+          <div class="cert-face cert-back"><div class="cert-back-label">Verified</div><div class="cert-back-status">✓ Issued</div></div>
+        </div></div>
       </div>
     </section>
 
@@ -586,7 +652,7 @@
         <p class="contact-sub">
           Currently open to AI/ML roles, research collaborations, and ambitious projects. If you're building something at the frontier of AI, data, or applied automation — I want to hear about it.
         </p>
-        <a href="mailto:ramamagarwal1234@gmail.com" class="cta-btn">
+        <a href="mailto:ramamagarwal1234@gmail.com" class="cta-btn" id="cta-btn">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
           Say Hello
         </a>
@@ -605,14 +671,17 @@
 </div>
 
 <script>
+  /* Custom cursor */
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursor-ring');
+  const spotlight = document.getElementById('spotlight');
   let mx = 0, my = 0, rx = 0, ry = 0;
 
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
     cursor.style.left = (mx - 6) + 'px';
     cursor.style.top = (my - 6) + 'px';
+    spotlight.style.background = `radial-gradient(600px circle at ${mx}px ${my}px, rgba(124,106,247,0.06), transparent 70%)`;
   });
   function animateRing() {
     rx += (mx - rx - 18) * 0.12;
@@ -623,22 +692,70 @@
   }
   animateRing();
 
-  document.querySelectorAll('a, .chip, .interest-item, .project-card, .cert-card, .exp-item, .edu-item').forEach(el => {
+  document.querySelectorAll('a, button, .chip, .interest-item, .project-card, .cert-flip, .exp-row, .edu-item, .stat-cell').forEach(el => {
     el.addEventListener('mouseenter', () => { ring.style.width='54px'; ring.style.height='54px'; ring.style.borderColor='rgba(124,106,247,0.9)'; });
     el.addEventListener('mouseleave', () => { ring.style.width='36px'; ring.style.height='36px'; ring.style.borderColor='rgba(124,106,247,0.5)'; });
   });
 
+  /* Scroll progress + meter + orb parallax */
+  function onScroll() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    const meter = document.getElementById('scroll-meter-fill');
+    if (meter) meter.style.width = pct + '%';
+
+    document.getElementById('orb1').style.transform = `translateY(${scrollTop * 0.08}px)`;
+    document.getElementById('orb2').style.transform = `translateY(${-scrollTop * 0.05}px)`;
+    document.getElementById('orb3').style.transform = `translateY(${scrollTop * 0.06}px)`;
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  /* Rotating role text */
+  const roles = ['AI/ML Engineer', 'Data Engineer', 'Co-Founder, UnDeny', 'Builder'];
+  let roleIdx = 0;
+  const roleEl = document.getElementById('role-text');
+  function typeRole(text, cb) {
+    let i = 0;
+    roleEl.textContent = '';
+    const iv = setInterval(() => {
+      roleEl.textContent += text[i];
+      i++;
+      if (i >= text.length) { clearInterval(iv); setTimeout(cb, 1800); }
+    }, 45);
+  }
+  function eraseRole(cb) {
+    const text = roleEl.textContent;
+    let i = text.length;
+    const iv = setInterval(() => {
+      roleEl.textContent = text.substring(0, i);
+      i--;
+      if (i < 0) { clearInterval(iv); cb(); }
+    }, 25);
+  }
+  function cycleRoles() {
+    eraseRole(() => {
+      roleIdx = (roleIdx + 1) % roles.length;
+      typeRole(roles[roleIdx], cycleRoles);
+    });
+  }
+  typeRole(roles[0], cycleRoles);
+
+  /* Scroll reveal */
   const reveals = document.querySelectorAll('.reveal');
   const revealObserver = new IntersectionObserver(entries => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 45);
+        setTimeout(() => entry.target.classList.add('visible'), i * 35);
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
+  }, { threshold: 0.06, rootMargin: '0px 0px -36px 0px' });
   reveals.forEach(el => revealObserver.observe(el));
 
+  /* Active nav */
   const sections = document.querySelectorAll('section[id]');
   const navItems = document.querySelectorAll('.nav-item');
   const scrollObserver = new IntersectionObserver(entries => {
@@ -658,6 +775,112 @@
       const target = document.querySelector(item.getAttribute('href'));
       if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
+  });
+
+  /* Count-up stats */
+  const statNums = document.querySelectorAll('.stat-num');
+  const statObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        let cur = 0;
+        const step = Math.max(1, Math.ceil(target / 30));
+        const iv = setInterval(() => {
+          cur += step;
+          if (cur >= target) { cur = target; clearInterval(iv); }
+          el.textContent = cur;
+        }, 35);
+        statObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  statNums.forEach(el => statObserver.observe(el));
+
+  /* Experience accordion */
+  document.querySelectorAll('.exp-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const item = row.closest('.exp-item');
+      const body = item.querySelector('.exp-body');
+      const isOpen = item.classList.contains('open');
+      // close all others
+      document.querySelectorAll('.exp-item.open').forEach(other => {
+        if (other !== item) {
+          other.classList.remove('open');
+          other.querySelector('.exp-body').style.maxHeight = '0px';
+        }
+      });
+      if (isOpen) {
+        item.classList.remove('open');
+        body.style.maxHeight = '0px';
+      } else {
+        item.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* Experience filter */
+  document.querySelectorAll('.exp-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.exp-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('#exp-list .exp-item').forEach(item => {
+        const cats = item.dataset.cat.split(' ');
+        const show = filter === 'all' || cats.includes(filter);
+        item.style.display = show ? '' : 'none';
+        if (!show && item.classList.contains('open')) {
+          item.classList.remove('open');
+          item.querySelector('.exp-body').style.maxHeight = '0px';
+        }
+      });
+    });
+  });
+
+  /* Project filter */
+  document.querySelectorAll('.project-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.project-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('#project-grid .project-card').forEach(card => {
+        const cats = card.dataset.cat.split(' ');
+        const show = filter === 'all' || cats.includes(filter);
+        card.classList.toggle('hidden-card', !show);
+      });
+    });
+  });
+
+  /* 3D tilt on project cards */
+  document.querySelectorAll('.tilt-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const rotateX = ((y - cy) / cy) * -4;
+      const rotateY = ((x - cx) / cx) * 4;
+      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+      card.style.setProperty('--mx', x + 'px');
+      card.style.setProperty('--my', y + 'px');
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
+    });
+  });
+
+  /* Magnetic CTA button */
+  const ctaBtn = document.getElementById('cta-btn');
+  ctaBtn.addEventListener('mousemove', e => {
+    const rect = ctaBtn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    ctaBtn.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
+  });
+  ctaBtn.addEventListener('mouseleave', () => {
+    ctaBtn.style.transform = 'translate(0,0)';
   });
 </script>
 </body>
