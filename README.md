@@ -91,7 +91,7 @@ Contributed to research at the Human-Technology Interaction Lab on creativity su
 If you're building something ambitious in AI, data, or applied automation, let’s connect.
 
 - 📧 Email: **ramamagarwal1234@gmail.com**
-- 💼 LinkedIn: **linkedin.com/in/ramamagarwal-51363716b**
+- 💼 LinkedIn: **linkedin.com/in/ramam-agarwal-51363716b**
 - 🌐 Portfolio: **codolio.com/profile/ramam11**
 
 <p align="center">
