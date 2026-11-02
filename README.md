@@ -92,7 +92,7 @@ If you're building something ambitious in AI, data, or applied automation, let�
 
 - 📧 Email: **ramamagarwal1234@gmail.com**
 - 💼 LinkedIn: **linkedin.com/in/ramam-agarwal-51363716b**
-- 🌐 Portfolio: **codolio.com/profile/ramam11**
+- 🌐 Portfolio: **ramamagarwal.github.io/Portfolio**
 
 <p align="center">
   <sub>“Building intelligent systems, one model at a time.”</sub>
