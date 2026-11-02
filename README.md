@@ -94,6 +94,21 @@ If you're building something ambitious in AI, data, or applied automation, let�
 - 💼 LinkedIn: **linkedin.com/in/ramam-agarwal-51363716b**
 - 🌐 Portfolio: **ramamagarwal.github.io/Portfolio**
 
+---
+
+## About this site
+Plain HTML, CSS and JavaScript with no framework and no build step, so GitHub Pages serves it as it is.
+
+| To change | Edit |
+|---|---|
+| Any text, role or project | `index.html`. The career graph, the tool map and the "Ask me something" answers all read from it. |
+| A career branch | The `data-start`, `data-end` and `data-cat` attributes on that role in `index.html` |
+| Which work uses which tool | The `data-uses` attribute on that project in the `#stack` section |
+| Colours and type | The tokens at the top of `assets/css/site.css` |
+| The grain figures | `assets/js/field.js` |
+
+To preview it locally, run `python -m http.server` and open `http://localhost:8000`.
+
 <p align="center">
   <sub>“Building intelligent systems, one model at a time.”</sub>
 </p>
